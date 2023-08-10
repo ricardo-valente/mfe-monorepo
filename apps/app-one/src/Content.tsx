@@ -1,8 +1,8 @@
 import React from "react";
-import Header from "home/Header";
-import Footer from "home/Footer";
+import Header from "host/Header";
+import Footer from "host/Footer";
 
-import { useCount } from "home/context";
+import { useCount } from "host/context";
 
 interface ContentProps {
   title?: string;

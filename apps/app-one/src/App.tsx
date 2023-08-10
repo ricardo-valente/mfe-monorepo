@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 
 import "./index.scss";
 
-import { CountProvider } from "home/context";
+import { CountProvider } from "host/context";
 import Content from "./Content";
 
 export default function App() {

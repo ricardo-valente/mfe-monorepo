@@ -1,3 +1,3 @@
-declare module "home/context";
-declare module "home/Header";
-declare module "home/Footer";
+declare module "host/context";
+declare module "host/Header";
+declare module "host/Footer";
