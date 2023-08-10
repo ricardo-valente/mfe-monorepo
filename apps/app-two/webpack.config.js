@@ -1,6 +1,8 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
+require("dotenv").config({ path: "../../.env" });
+
 const deps = require("./package.json").dependencies;
 module.exports = (_, argv) => ({
   output: {
@@ -41,10 +43,11 @@ module.exports = (_, argv) => ({
 
   plugins: [
     new ModuleFederationPlugin({
-      name: "solutions",
-      filename: "solutionsRemoteEntry.js",
+      name: "appTwo",
+      filename: "appTwoRemoteEntry.js",
       remotes: {
-        about: "about@http://localhost:3001/aboutRemoteEntry.js",
+        host: `host@${process.env.HOST_APP_DOMAIN_URL}/hostRemoteEntry.js`,
+        appOne: `appOne@${process.env.APP_ONE_DOMAIN_URL}/appOneRemoteEntry.js`,
       },
       exposes: {
         "./App": "./src/App.tsx",

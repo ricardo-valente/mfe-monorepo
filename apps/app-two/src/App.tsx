@@ -2,7 +2,8 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import "./index.scss";
 
-import Content from "about/Content";
+import { CountProvider } from "host/context";
+import Content from "appOne/Content";
 
 export default function App() {
   return (
@@ -13,4 +14,8 @@ export default function App() {
 }
 
 const root = createRoot(document.getElementById("app")!);
-root.render(<App />);
+root.render(
+  <CountProvider>
+    <App />
+  </CountProvider>
+);

@@ -1,1 +1,2 @@
-declare module "about/Content";
+declare module "host/context";
+declare module "appOne/Content";
