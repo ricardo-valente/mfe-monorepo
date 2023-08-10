@@ -12,7 +12,7 @@ const TSCONFIG_PATH = path.join(__dirname, "./tsconfig.json");
 const deps = require("./package.json").dependencies;
 module.exports = (_, argv) => ({
   output: {
-    publicPath: "http://localhost:3000/",
+    publicPath: `${process.env.HOST_APP_DOMAIN_URL}/`,
   },
 
   resolve: {
