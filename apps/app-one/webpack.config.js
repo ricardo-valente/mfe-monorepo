@@ -6,7 +6,7 @@ require("dotenv").config({ path: "../../.env" });
 const deps = require("./package.json").dependencies;
 module.exports = (_, argv) => ({
   output: {
-    publicPath: "http://localhost:3001/",
+    publicPath: `${process.env.APP_ONE_DOMAIN_URL}/`,
   },
 
   resolve: {
