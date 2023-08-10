@@ -57,7 +57,7 @@ module.exports = (_, argv) => ({
       name: "host",
       filename: "hostRemoteEntry.js",
       remotes: {
-        host: `host@http://${process.env.HOST_APP_DOMAIN_URL}/hostRemoteEntry.js`,
+        host: `host@${process.env.HOST_APP_DOMAIN_URL}/hostRemoteEntry.js`,
       },
       // remotes: {
       //   about: 'about@http://localhost:3000/aboutRemoteEntry.js",',
