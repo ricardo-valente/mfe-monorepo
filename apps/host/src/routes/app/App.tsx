@@ -1,6 +1,8 @@
 import React from "react";
 import { Box, CircularProgress } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useLoaderData, useNavigation, useParams } from "react-router-dom";
+import { AppName } from "./types";
+import Spinner from "@/components/Spinner";
 
 declare const __webpack_init_sharing__: (shareScope: string) => Promise<void>;
 declare const __webpack_share_scopes__: { default: string };
@@ -13,11 +15,9 @@ interface Container {
   get(module: string): Factory;
 }
 
-type Scope = "about" | "solutions";
-
 interface ModuleLoaderProps {
   url: string;
-  scope: Scope;
+  scope: AppName;
   module: string;
 }
 
@@ -64,7 +64,7 @@ const useDynamicScript = (args: Pick<ModuleLoaderProps, "url">) => {
   };
 };
 
-function loadComponent(scope: Scope, module: string) {
+function loadComponent(scope: AppName, module: string) {
   return async () => {
     // Initializes the share scope. This fills it with known provided modules from this build and all remotes
     await __webpack_init_sharing__("default");
@@ -88,11 +88,7 @@ function ModuleLoader(props: ModuleLoaderProps) {
 
   if (!ready) {
     // return <h2>Loading dynamic script: {props.url}</h2>;
-    return (
-      <Box sx={{ display: "flex" }}>
-        <CircularProgress color="success" />
-      </Box>
-    );
+    return <Spinner />;
   }
 
   if (failed) {
@@ -108,19 +104,21 @@ function ModuleLoader(props: ModuleLoaderProps) {
   );
 }
 
+const versions = {
+  about: "latest",
+  solutions: "1.0.0",
+};
+
 const paths = {
   about: "3001",
   solutions: "3002",
 };
 
 export default function App() {
-  const { name } = useParams() as { name: Scope };
+  const app = useLoaderData() as Record<string, any>;
+  const navigation = useNavigation();
 
-  return (
-    <ModuleLoader
-      url={`http://localhost:${paths[name]}/${name}RemoteEntry.js`}
-      scope={name}
-      module={"./App"}
-    />
-  );
+  if (navigation.state === "loading") return <Spinner />;
+
+  return <ModuleLoader url={app.url} scope={app.scope} module={"./App"} />;
 }

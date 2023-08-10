@@ -1,5 +1,5 @@
 import React from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -9,6 +9,7 @@ import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Grid";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Spinner from "@/components/Spinner";
 
 const styles = {
   root: {
@@ -31,14 +32,13 @@ const styles = {
   },
 };
 
-// const apps = [
-//   { name: "app-1", title: "App 1", content: "This is the content of App 1." },
-//   { name: "app-2", title: "App 2", content: "This is the content of App 2." },
-//   { name: "app-3", title: "App 3", content: "This is the content of App 3." },
-// ];
-
 export default function Root() {
   const apps = useLoaderData() as Record<string, string>[];
+
+  const navigation = useNavigation();
+  console.log("apps: ", apps, navigation.state);
+
+  if (navigation.state === "loading") return <Spinner />;
 
   return (
     <Box sx={styles.root}>

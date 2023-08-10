@@ -1,2 +1,2 @@
-declare module "home/context"
-declare module "about/App"
+declare module "host/context"
+declare module "app-one/App"

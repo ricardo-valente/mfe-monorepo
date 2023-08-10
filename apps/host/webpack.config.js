@@ -1,8 +1,11 @@
 const path = require("path");
 
+const webpack = require("webpack");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+
+require("dotenv").config({ path: "../../.env" });
 
 const TSCONFIG_PATH = path.join(__dirname, "./tsconfig.json");
 
@@ -51,10 +54,10 @@ module.exports = (_, argv) => ({
 
   plugins: [
     new ModuleFederationPlugin({
-      name: "home",
-      filename: "homeRemoteEntry.js",
+      name: "host",
+      filename: "hostRemoteEntry.js",
       remotes: {
-        home: "home@http://localhost:3000/homeRemoteEntry.js",
+        host: `host@http://${process.env.HOST_APP_DOMAIN_URL}/hostRemoteEntry.js`,
       },
       // remotes: {
       //   about: 'about@http://localhost:3000/aboutRemoteEntry.js",',
@@ -112,6 +115,11 @@ module.exports = (_, argv) => ({
     }),
     new HtmlWebPackPlugin({
       template: "./src/index.html",
+    }),
+    new webpack.DefinePlugin({
+      APP_ONE_DOMAIN_URL: JSON.stringify(process.env.APP_ONE_DOMAIN_URL),
+      APP_TWO_DOMAIN_URL: JSON.stringify(process.env.APP_TWO_DOMAIN_URL),
+      APP_THREE_DOMAIN_URL: JSON.stringify(process.env.APP_TWO_DOMAIN_URL),
     }),
   ],
 });

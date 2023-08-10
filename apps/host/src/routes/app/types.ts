@@ -1,0 +1,1 @@
+export type AppName = `app-${'one' | 'two' | 'three'}`
