@@ -113,7 +113,5 @@ export default function App() {
 
   const app = useLoaderData() as Record<string, any>;
 
-  // return <AppOne />;
-
   return <ModuleLoader url={app.url} scope={app.scope} module={"./App"} />;
 }
