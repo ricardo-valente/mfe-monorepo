@@ -1,5 +1,10 @@
-import React from "react";
-import { useLoaderData, useNavigation } from "react-router-dom";
+import React, { useEffect } from "react";
+import {
+  useLoaderData,
+  useLocation,
+  useNavigate,
+  useNavigation,
+} from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -10,6 +15,10 @@ import Grid from "@mui/material/Grid";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Spinner from "@/components/Spinner";
+
+import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
+import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
+import { useUser } from "host/context";
 
 const styles = {
   root: {
@@ -33,10 +42,19 @@ const styles = {
 };
 
 export default function Root() {
-  const apps = useLoaderData() as Record<string, string>[];
+  const navigate = useNavigate();
+
+  const [user] = useUser();
+  // const apps = useLoaderData() as Record<string, string>[];
 
   const navigation = useNavigation();
-  console.log("apps: ", apps, navigation.state);
+  console.log("user: ", user, navigation.state);
+
+  useEffect(() => {
+    if (!user) navigate("/sign-in");
+  }, [user, navigate]);
+
+  if (!user) return null;
 
   if (navigation.state === "loading") return <Spinner />;
 
@@ -46,18 +64,35 @@ export default function Root() {
 
       <Container maxWidth="lg" sx={styles.content}>
         <Grid container spacing={3}>
-          {apps.map((app, index) => (
+          {user.apps.map((app, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
-              <CardActionArea href={`/app/${app.name}`}>
+              <CardActionArea onClick={() => navigate(`/app/${app.name}`)}>
+                {/* <CardActionArea href={`/app/${app.name}`}> */}
                 <Card sx={styles.card}>
                   <CardContent sx={styles.cardContent}>
-                    <Typography variant="h5" component="h2">
-                      {app.title}
-                    </Typography>
+                    <Grid container spacing={1}>
+                      <Grid item xs={8}>
+                        <Typography variant="h5" component="h2" mb={4}>
+                          {app.title}
+                        </Typography>
 
-                    <Typography variant="body2" component="p">
-                      {app.content}
-                    </Typography>
+                        <Typography variant="body2" component="p">
+                          {app.description}
+                        </Typography>
+
+                        <Typography variant="body2" component="p">
+                          version: {app.version}
+                        </Typography>
+                      </Grid>
+
+                      <Grid item xs={4} textAlign="end">
+                        {app.permissions.includes("read") ? (
+                          <RemoveRedEyeOutlinedIcon />
+                        ) : (
+                          <CreateOutlinedIcon />
+                        )}
+                      </Grid>
+                    </Grid>
                   </CardContent>
                 </Card>
               </CardActionArea>

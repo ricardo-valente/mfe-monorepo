@@ -1,9 +1,7 @@
-import { LoaderFunction } from "react-router-dom";
+import { LoaderFunction, LoaderFunctionArgs } from "react-router-dom";
 import { AppName } from "./types";
 
 const delay = <T>(data: T) => new Promise((resolve) => setTimeout(() => resolve(data), 1000));
-
-// console.log(process.env)
 
 export const apps =
 {
@@ -27,12 +25,6 @@ export const apps =
     },
 }
 
-interface AppLoaderProps {
-    params: {
-        name: AppName
-    }
-}
-
-export default async function loader({ params }: AppLoaderProps) {
-    return delay(apps[params.name])
+export default async function loader({ params }: LoaderFunctionArgs) {
+    return params.name && params.name in apps && delay(apps[params.name as keyof typeof apps])
 }

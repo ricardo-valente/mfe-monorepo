@@ -1,15 +1,17 @@
 import React, { createContext, useContext, useState } from "react";
 
-const CountContext = createContext([0, () => {}]);
+const defaultUser = null;
 
-export function CountProvider({ children }) {
+const UserContext = createContext([defaultUser, (user: any) => user] as const);
+
+export function UserProvider({ children }) {
   return (
-    <CountContext.Provider value={useState(0)}>
+    <UserContext.Provider value={useState(defaultUser)}>
       {children}
-    </CountContext.Provider>
+    </UserContext.Provider>
   );
 }
 
-export function useCount() {
-  return useContext(CountContext);
+export function useUser() {
+  return useContext(UserContext);
 }

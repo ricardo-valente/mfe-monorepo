@@ -3,6 +3,9 @@ import { Box, CircularProgress } from "@mui/material";
 import { useLoaderData, useNavigation, useParams } from "react-router-dom";
 import { AppName } from "./types";
 import Spinner from "@/components/Spinner";
+import { useUser } from "host/context";
+
+// import AppOne from "appOne/App";
 
 declare const __webpack_init_sharing__: (shareScope: string) => Promise<void>;
 declare const __webpack_share_scopes__: { default: string };
@@ -87,7 +90,6 @@ function ModuleLoader(props: ModuleLoaderProps) {
   }
 
   if (!ready) {
-    // return <h2>Loading dynamic script: {props.url}</h2>;
     return <Spinner />;
   }
 
@@ -98,27 +100,20 @@ function ModuleLoader(props: ModuleLoaderProps) {
   const Component = React.lazy(loadComponent(props.scope, props.module));
 
   return (
-    // <React.Suspense fallback="Loading Module">
+    // <React.Suspense fallback={<Spinner />}>
     <Component />
     // </React.Suspense>
   );
 }
 
-const versions = {
-  about: "latest",
-  solutions: "1.0.0",
-};
-
-const paths = {
-  about: "3001",
-  solutions: "3002",
-};
-
 export default function App() {
-  const app = useLoaderData() as Record<string, any>;
-  const navigation = useNavigation();
+  const [user] = useUser();
 
-  if (navigation.state === "loading") return <Spinner />;
+  console.log("App user: ", user);
+
+  const app = useLoaderData() as Record<string, any>;
+
+  // return <AppOne />;
 
   return <ModuleLoader url={app.url} scope={app.scope} module={"./App"} />;
 }

@@ -1,16 +1,14 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import {
-  createBrowserRouter,
-  LoaderFunction,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Root from "./routes/root/Root";
 import rootLoader from "./routes/root/loader";
 import appLoader from "./routes/app/loader";
 import App from "./routes/app/App";
-import { CountProvider } from "@/context";
+import { UserProvider } from "host/context";
+import SignIn from "./routes/signin/SignIn";
+import signInAction from "./routes/signin/action";
 
 const router = createBrowserRouter([
   {
@@ -24,14 +22,16 @@ const router = createBrowserRouter([
     loader: appLoader,
   },
   {
-    path: "login",
-    element: <h1>Login page</h1>,
+    path: "sign-in",
+    element: <SignIn />,
+    action: signInAction,
   },
 ]);
 
-const root = createRoot(document.getElementById("app")!);
-root.render(
-  <CountProvider>
-    <RouterProvider router={router} />
-  </CountProvider>
-);
+export default function Router() {
+  return (
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
+  );
+}

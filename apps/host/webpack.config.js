@@ -58,10 +58,8 @@ module.exports = (_, argv) => ({
       filename: "hostRemoteEntry.js",
       remotes: {
         host: `host@${process.env.HOST_APP_DOMAIN_URL}/hostRemoteEntry.js`,
+        // appOne: "appOne@http://localhost:3001/appOneRemoteEntry.js",
       },
-      // remotes: {
-      //   about: 'about@http://localhost:3000/aboutRemoteEntry.js",',
-      // },
       // remotes: {
       //   about: `promise new Promise(resolve => {
       //     const scriptElement = document.createElement('script');
@@ -110,6 +108,10 @@ module.exports = (_, argv) => ({
         "@mui/material": {
           singleton: true,
           requiredVersion: deps["@mui/material"],
+        },
+        "react-router-dom": {
+          singleton: true,
+          requiredVersion: deps["react-router-dom"],
         },
       },
     }),
