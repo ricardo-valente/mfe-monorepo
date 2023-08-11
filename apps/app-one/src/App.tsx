@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 
 import "./index.scss";
 
-import { CountProvider } from "host/context";
+import { UserProvider } from "host/context";
 import Content from "./Content";
 
 export default function App() {
@@ -19,7 +19,7 @@ export default function App() {
 
 const root = createRoot(document.getElementById("app")!);
 root.render(
-  <CountProvider>
+  <UserProvider>
     <App />
-  </CountProvider>
+  </UserProvider>
 );
